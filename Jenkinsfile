@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'linux' }
+    agent { label 'linux01' }
     stages {
         stage ('Checkout') {
             agent { docker 'maven:3.5-alpine' }
