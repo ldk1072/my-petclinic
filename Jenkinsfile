@@ -1,17 +1,25 @@
 pipeline {
-	agent { docker 'maven:3.5-alpine' }
-	stages {
-		stage ('Checkout'){
-			steps {
-				git 'https://github.com/ldk1072/my-petclinic'
-			}
-		}
-		stage('Build') {
-			steps {
-				sh 'mvn clean package'
-				junit '**/target/surefire-reports/TEST-*.xml'
-				archiveArtifacts artifacts: 'target/*.jar', fingerprint:true
-			}
-		}
-	}
+    agent { label 'linux' }
+    stages {
+        stage ('Checkout') {
+            agent { docker 'maven:3.5-alpine' }
+          steps {
+            git 'https://github.com/effectivejenkins/spring-petclinic.git'
+          }
+        }
+        stage('Build') {
+            agent { docker 'maven:3.5-alpine' }
+            steps {
+                sh 'mvn clean package'
+                junit '**/target/surefire-reports/TEST-*.xml'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+        stage('Deploy') {
+            steps {
+                input 'Do you approve the deployment?'
+                echo "deploying..."
+            }
+        }
+    }
 }
