@@ -2,13 +2,13 @@ pipeline {
     agent { label 'linux01' }
     stages {
         stage ('Checkout') {
-            agent { docker 'maven:3.5-alpine' }
+            agent { docker 'maven:3.10-alpine' }
           steps {
             git 'https://github.com/ldk1072/my-petclinic.git'
           }
         }
         stage('Build') {
-            #agent { docker 'maven:3.5-alpine' }
+            agent { docker 'maven:3.10-alpine' }
             steps {
                 sh 'mvn clean package'
                 junit '**/target/surefire-reports/TEST-*.xml'
