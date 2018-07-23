@@ -2,9 +2,9 @@ pipeline {
     agent { label 'linux01' }
     stages {
         stage ('Checkout') {
-            #agent { docker 'maven:3.5-alpine' }
+            agent { docker 'maven:3.5-alpine' }
           steps {
-            git 'https://github.com/effectivejenkins/spring-petclinic.git'
+            git 'https://github.com/ldk1072/my-petclinic.git'
           }
         }
         stage('Build') {
